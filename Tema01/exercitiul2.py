@@ -1,3 +1,4 @@
+import sys
 from exercitiul1 import precizie_masina as pm
 import random
 
@@ -33,7 +34,11 @@ while not gasit:
     x = random.uniform(0.1, 1.0)
     y = random.uniform(0.1, 1.0)
     z = random.uniform(0.1, 1.0)
-    
+
+  #  x=sys.float_info.max
+  #  y=2.0
+  #  z=sys.float_info.min
+
     gasit = verificare_inmultire(x, y, z)
     incercari += 1
     if gasit:

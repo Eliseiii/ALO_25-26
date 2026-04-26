@@ -3,7 +3,7 @@ def precizie_masina():
         i = 0
         while 1 + u != 1:
             u = u / 10
-            i = i + 1
+            i = i - 1
         return u, i
 
         
