@@ -1,20 +1,104 @@
 # **Algebra Liniara si Optimizare**
 
 
-##Tema 1 -  Precizia maşină, neasociativitatea operațiilor elementare, aproximarea funcțiilor elementare
 
-exercitiul 1 ✅
-exercitiul 2 ✅
-exercitiul 3 ✅
+---
 
-##Tema 2 - Minimizarea funcțiilor prin metoda secantei
+## Tema 1 – Aritmetică flotantă și aproximarea funcției tangentă
 
-Acest proiect este o aplicație de _optimizare numerică_ ce are scopul de a găsi automat punctul în care o funcție matematică $F(x)$ atinge cea mai mică valoare a sa.
-HEAD
-Procesul constă în aproximarea rădăcinii $x^*$ a ecuației neliniare $g(x)=0$ prin construcția unui șir de iterații $\{x_k\}$ care converge către soluția căutată
+### Exercițiul 1 – Precizia mașinii
 
-Procesul constă în aproximarea rădăcinii $x^*$ a ecuației neliniare $g(x)=0$ prin construcția unui șir de iterații $\{x_k\}$ care converge către soluția căutată
+Se determină cel mai mic număr pozitiv `u = 10⁻ᵐ` (`m ∈ ℕ`) pentru care calculatorul nu mai poate distinge `1.0 + u` de `1.0`:
 
+```
+1.0 +c u ≠ 1.0
+```
+
+Această valoare se numește **precizia mașinii** și ilustrează limitele reprezentării numerelor în virgulă mobilă.
+
+---
+
+### Exercițiul 2 – Non-asociativitatea operațiilor în virgulă mobilă
+
+Se demonstrează că adunarea efectuată de calculator **nu este asociativă**. Folosind `x = 1.0`, `y = u/10`, `z = u/10` (unde `u` este precizia mașinii de la ex. 1):
+
+```
+(x +c y) +c z  ≠  x +c (y +c z)
+```
+
+Similar, se găsesc valori `x, y, z` pentru care și **înmulțirea** este non-asociativă:
+
+```
+(x ×c y) ×c z  ≠  x ×c (y ×c z)
+```
+
+---
+
+### Exercițiul 3 – Aproximarea funcției tangentă prin polinoame
+
+Se implementează o aproximare polinomială a funcției `tan(x)` bazată pe seria MacLaurin:
+
+```
+tan(x) ≈ x + (1/3)x³ + (2/15)x⁵ + (17/315)x⁷ + (62/2835)x⁹
+```
+
+**Cazuri tratate:**
+- `x ∈ (-π/4, π/4)` – formula se aplică direct
+- `x ∈ [π/4, π/2)` – se folosește relația `tan(x) = 1 / tan(π/2 - x)` pentru reducerea argumentului
+- `x ∉ (-π/2, π/2)` – se aplică periodicitatea funcției și antisimetria `tan(x) = -tan(-x)`
+- `x` multiplu de `π/2` – caz special, tratat separat (tangenta nedefinită)
+
+---
+
+---
+
+## Tema 2 – Minimizarea funcțiilor de o variabilă prin metoda secantei
+
+Se aproximează un punct de minim (local sau global) al unei funcții `F : ℝ → ℝ` folosind **metoda secantei** aplicată derivatei `F'(x) = 0`.
+
+---
+
+### Metoda secantei
+
+Pornind de la două valori inițiale alese aleatoriu `x₀` și `x₁`, se construiește un șir convergent folosind relația de recurență:
+
+```
+x_{k+1} = x_k - Δx_k,    unde    Δx_k = (x_k - x_{k-1}) · g(x_k) / (g(x_k) - g(x_{k-1}))
+```
+
+unde `g(x) = F'(x)`. Algoritmul se oprește când `|Δx| < ε` sau când `|g(xₖ)| < ε`, cu un număr maxim de iterații `k_max = 1000`.
+
+**Caz degenerat:** dacă `|g(xₖ) - g(xₖ₋₁)| ≤ ε`, numitorul este considerat nul și se setează `Δx = 10⁻⁵` (sau `Δx = 0` dacă `|g(x)| ≤ ε/100`, semn că s-a atins soluția).
+
+---
+
+### Aproximarea derivatelor
+
+`F'(x)` se aproximează prin **două formule numerice** distincte, comparate între ele:
+
+```
+G1(x, h) = ( 3F(x) - 4F(x-h) + F(x-2h) ) / (2h)
+
+G2(x, h) = ( -F(x+2h) + 8F(x+h) - 8F(x-h) + F(x-2h) ) / (12h)
+```
+
+`F''(x)` se aproximează cu formula:
+
+```
+F''(x) ≈ ( -F(x+2h) + 16F(x+h) - 30F(x) + 16F(x-h) - F(x-2h) ) / (12h²)
+```
+
+cu `h = 10⁻⁵` sau `10⁻⁶` (parametru de intrare).
+
+---
+
+### Ce face programul
+
+1. **Găsește punctul critic** `x*` cu metoda secantei, folosind pe rând `G1` și `G2` pentru aproximarea lui `F'`
+2. **Verifică dacă `x*` este punct de minim** prin condiția `F''(x*) > 0`
+3. **Compară cele două formule** (`G1` vs `G2`) din punct de vedere al numărului de iterații necesare pentru aceeași precizie `ε`
+
+---
 
 ## Tema 3 – Descompunere LU și rezolvarea sistemelor liniare
 
@@ -56,5 +140,3 @@ Această temă implementează algoritmul **Doolittle** de descompunere LU a unei
 | `b` | Vectorul termenilor liberi (`n × 1`) |
 
 ---
-
-Poți ajusta tonul sau adăuga secțiuni de **Usage** / **Example** dacă vrei să completez cu ceva specific (limbaj de programare, comenzi de rulare etc.).
