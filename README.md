@@ -48,7 +48,9 @@ tan(x) ≈ x + (1/3)x³ + (2/15)x⁵ + (17/315)x⁷ + (62/2835)x⁹
 - `x ∉ (-π/2, π/2)` – se aplică periodicitatea funcției și antisimetria `tan(x) = -tan(-x)`
 - `x` multiplu de `π/2` – caz special, tratat separat (tangenta nedefinită)
 
----
+
+
+
 
 ---
 
@@ -97,6 +99,10 @@ cu `h = 10⁻⁵` sau `10⁻⁶` (parametru de intrare).
 1. **Găsește punctul critic** `x*` cu metoda secantei, folosind pe rând `G1` și `G2` pentru aproximarea lui `F'`
 2. **Verifică dacă `x*` este punct de minim** prin condiția `F''(x*) > 0`
 3. **Compară cele două formule** (`G1` vs `G2`) din punct de vedere al numărului de iterații necesare pentru aceeași precizie `ε`
+
+
+
+
 
 ---
 
