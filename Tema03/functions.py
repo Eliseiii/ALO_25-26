@@ -1,9 +1,10 @@
+import sys
 import numpy as np # type: ignore
 import math
 
 def gen_matrix(n):
   T=np.random.randn(n,n)
-  A=T.T @ T
+  A=T.T @ T #creez o matrice sim poz definita
   return A
 
 
@@ -20,8 +21,7 @@ def desc_LU(A,n):
   for p in range(n):
     for i in range(p,n):
       s=0.0
-      for k in range(p):
-        s+=A[p][k]*A[k][i]
+      s+= sum(A[p][k]*A[k][i] for k in range(p))
       A[p][i]-=s
 
     if abs(A[p][p])<eps:
@@ -29,8 +29,7 @@ def desc_LU(A,n):
     
     for j in range(p+1,n):
       s=0.0
-      for k in range(p):
-        s+=A[j][k]*A[k][p]
+      s+= sum(A[j][k]*A[k][p] for k in range(p))
       A[j][p]=(A[j][p]-s)/A[p][p]
 
   return True
@@ -51,8 +50,7 @@ def sub_inv(A, y, n):# se rezolva sistemul Ux=y
   x=[0.0 for i in range(n)]
   for i in reversed(range(n)):
         s=0.0
-        for j in range(i+1,n):
-          s+=A[i][j]*x[j]
+        s+= sum(A[i][j]*x[j] for j in range(i+1,n))
         if abs(A[i][i])>eps:
           x[i]=(y[i]-s)/A[i][i]
         else:
@@ -74,19 +72,10 @@ def verificare(A_init, b_init, x, n):
   dif=[]
   for i  in range(n):
     s=0.0
-    for j in range(n):
-      s+=A_init[i][j]*x[j]
+    s+= sum(A_init[i][j]*x[j] for j in range(n))
     dif.append(s-b_init[i])
   
   return norma2(dif)
 
-def afisare_matrice(A):
-  for i in range(len(A)):
-    for j in range(len(A[i])):
-      print(f"{A[i][j]:.6f}", end=" ")
-    print()
-
-def afisare_vector(v):
-  for i in range(len(v)):
-    print(f"{v[i]:.6f}", end=" ")
-  print()
+def afisare(A):
+   np.savetxt(sys.stdout, A, fmt="%.6f")
