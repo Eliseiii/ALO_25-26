@@ -141,7 +141,6 @@ Această temă implementează algoritmul **Doolittle** de descompunere LU a unei
 | Parametru | Descriere |
 |-----------|-----------|
 | `n` | Dimensiunea sistemului |
-| `ε` | Precizia calculelor (ex: `10⁻⁶`) |
 | `A` | Matricea sistemului (`n × n`) |
 | `b` | Vectorul termenilor liberi (`n × 1`) |
 
