@@ -226,7 +226,7 @@ Inversa se calculează rezolvând `n` sisteme liniare `Ax = eⱼ` (`j = 1,...,n`
 
 Se compară cu inversa din bibliotecă și se afișează:
 ```
-‖A⁻¹_Householder - A⁻¹_bibl‖
+‖A⁻¹_Householder - A⁻¹_bibl‖₂
 ```
 
 ---
