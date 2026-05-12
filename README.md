@@ -145,7 +145,6 @@ Această temă implementează algoritmul **Doolittle** de descompunere LU a unei
 | `b` | Vectorul termenilor liberi (`n × 1`) |
 
 ---
----
 
 ## Tema 4 – Descompunere QR prin algoritmul Householder
 
