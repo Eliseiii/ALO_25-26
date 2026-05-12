@@ -145,3 +145,94 @@ Această temă implementează algoritmul **Doolittle** de descompunere LU a unei
 | `b` | Vectorul termenilor liberi (`n × 1`) |
 
 ---
+---
+
+## Tema 4 – Descompunere QR prin algoritmul Householder
+
+Se implementează **algoritmul lui Householder** pentru factorizarea `A = Q·R` a unei matrice pătratice `A ∈ ℝⁿˣⁿ`, urmată de rezolvarea sistemului liniar `Ax = b` și calculul inversei matricei.
+
+---
+
+### Input
+
+| Parametru | Descriere |
+|---|---|
+| `n` | Dimensiunea sistemului |
+| `A` | Matricea pătratică (`n × n`) |
+| `s` | Vector dat (`n × 1`), folosit pentru construirea lui `b` și verificarea soluției |
+
+---
+
+### Ce face programul
+
+**1. Construirea vectorului `b`**
+
+Vectorul termenilor liberi se calculează ca:
+```
+bᵢ = Σⱼ sⱼ · aᵢⱼ,    i = 1,...,n
+```
+Prin construcție, soluția exactă a sistemului `Ax = b` este chiar vectorul `s`.
+
+---
+
+**2. Descompunerea QR – Algoritmul Householder**
+
+Se factorizează `A = Q·R` în `(n-1)` pași, folosind **matrice de reflexie** (Householder):
+```
+Pᵣ = Iₙ - (1/β) · u·uᵀ
+```
+La fiecare pas `r`, coloana `r` a matricei `A` este adusă în formă superior triunghiulară fără a modifica primele `(r-1)` coloane. Se actualizează simultan `A`, `b` și `Q̃ = Iₙ` (care acumulează `Qᵀ`).
+
+La finalul algoritmului:
+- `A` conține matricea `R` (superior triunghiulară)
+- `Q̃` conține `Qᵀ`
+- `b` conține `Qᵀ · b_init`
+
+---
+
+**3. Rezolvarea sistemului `Ax = b`**
+
+Sistemul se reduce la un sistem superior triunghiular:
+```
+Ax = b  ⟺  Rx = Qᵀb
+```
+Se obțin două soluții comparate între ele:
+- `x_Householder` – prin implementarea proprie
+- `x_QR` – prin biblioteca standard
+
+Se afișează: `‖x_QR - x_Householder‖₂`
+
+---
+
+**4. Verificarea erorilor**
+
+Se calculează și afișează următoarele norme (toate ar trebui să fie < `10⁻⁶`):
+
+| Normă | Descriere |
+|---|---|
+| `‖A_init · x_Householder - b_init‖₂` | Reziduul soluției Householder |
+| `‖A_init · x_QR - b_init‖₂` | Reziduul soluției din bibliotecă |
+| `‖x_Householder - s‖₂ / ‖s‖₂` | Eroarea relativă față de soluția exactă (Householder) |
+| `‖x_QR - s‖₂ / ‖s‖₂` | Eroarea relativă față de soluția exactă (bibliotecă) |
+
+---
+
+**5. Calculul inversei `A⁻¹`**
+
+Inversa se calculează rezolvând `n` sisteme liniare `Ax = eⱼ` (`j = 1,...,n`), unde `eⱼ` sunt vectorii bazei canonice. Pentru fiecare sistem:
+1. Se inițializează `b = Qᵀ eⱼ` (coloana `j` din `Qᵀ`)
+2. Se rezolvă `Rx = b` prin substituție inversă
+3. Soluția `x*` devine coloana `j` a lui `A⁻¹_Householder`
+
+Se compară cu inversa din bibliotecă și se afișează:
+```
+‖A⁻¹_Householder - A⁻¹_bibl‖
+```
+
+---
+
+**6. Date random**
+
+Programul suportă inițializare aleatorie a lui `A` și `s`, funcționând corect pentru orice dimensiune `n`.
+
+---
